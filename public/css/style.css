@@ -1,0 +1,142 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0f0f14;
+    color: white;
+    margin: 0;
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 48px;
+}
+
+.status,
+.stats,
+.admin-actions {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+a,
+button {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button:hover,
+a:hover {
+    background: #555;
+}
+
+.danger {
+    background: #8b1e1e;
+}
+
+.danger:hover {
+    background: #b32626;
+}
+
+.columns {
+    display: flex;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.bottom {
+    margin-top: 25px;
+}
+
+.column {
+    flex: 1;
+    background: #1b1b24;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.wind {
+    border: 4px solid #00c853;
+}
+
+.eis {
+    border: 4px solid #2196f3;
+}
+
+.column h2 {
+    text-align: center;
+    font-size: 32px;
+}
+
+.ticket {
+    background: #2a2a35;
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    font-size: 22px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.draggable {
+    cursor: grab;
+}
+
+.dragging {
+    opacity: 0.45;
+}
+
+.history-entry {
+    font-size: 18px;
+    color: #ccc;
+}
+
+.empty {
+    text-align: center;
+    color: #aaa;
+    font-size: 20px;
+}
+
+.login-box {
+    max-width: 400px;
+    margin: 40px auto;
+    background: #1b1b24;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.login-box input {
+    width: 90%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 18px;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #333;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: 0.2s;
+    z-index: 9999;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}

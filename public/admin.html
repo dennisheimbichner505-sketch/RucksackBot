@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Rucksack Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <script>
+    if (!localStorage.getItem("adminToken")) {
+        window.location.href = "/login";
+    }
+</script>
+    <h1>🎒 Rucksack Admin</h1>
+
+    <div id="toast" class="toast"></div>
+
+    <div class="admin-actions">
+        <button class="danger" onclick="clearAll()">🧹 Alles leeren</button>
+        <a href="/">Zur normalen Ansicht</a>
+    </div>
+
+    <div class="columns">
+        <div class="column wind">
+            <h2>🟩 Wind</h2>
+            <div id="windAdmin"></div>
+            <button onclick="adminAction('next', 'wind')">▶️ Nächster Wind</button>
+        </div>
+
+        <div class="column eis">
+            <h2>🟦 Eis</h2>
+            <div id="eisAdmin"></div>
+            <button onclick="adminAction('next', 'eis')">▶️ Nächster Eis</button>
+        </div>
+    </div>
+
+    <div class="columns bottom">
+        <div class="column">
+            <h2>🔓 Entfernte Spieler</h2>
+            <div id="removedList"></div>
+        </div>
+
+        <div class="column">
+            <h2>📜 Verlauf</h2>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -3,71 +3,75 @@ const express = require("express");
 function startWebsite(queue, settings) {
     const app = express();
 
-    app.get("/", (req, res) => {
+    app.use(express.json());
+    app.use(express.static("public"));
+
+    app.get("/api/state", (req, res) => {
         const state = queue.getState();
 
-        res.send(`
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="2">
-<title>Rucksack</title>
-<style>
-body { font-family: Arial, sans-serif; background:#111; color:white; padding:30px; }
-h1 { text-align:center; font-size:48px; }
-.status,.stats { text-align:center; margin-bottom:20px; font-size:22px; }
-.columns { display:flex; gap:25px; }
-.column { flex:1; background:#1c1c1c; padding:20px; border-radius:14px; }
-.wind { border:4px solid #00c853; }
-.eis { border:4px solid #2196f3; }
-.column h2 { text-align:center; font-size:34px; }
-.ticket { background:#2b2b2b; padding:15px; margin-bottom:10px; border-radius:8px; font-size:24px; display:flex; gap:15px; }
-.empty { text-align:center; color:#aaa; font-size:22px; }
-</style>
-</head>
-<body>
-<h1>🎒 Rucksack 🎒</h1>
+        res.json({
+            wind: state.wind,
+            eis: state.eis,
+            removed: state.removed,
+            history: state.history,
+            total: state.total,
+            entriesOpen: settings.entriesOpen,
+            publicListVisible: settings.publicListVisible
+        });
+    });
 
-<div class="status">
-Status: ${settings.entriesOpen ? "🟢 OFFEN" : "🔴 GESCHLOSSEN"}<br>
-Öffentliche Liste: ${settings.publicListVisible ? "🟢 AKTIV" : "🔴 AUS"}
-</div>
+    app.get("/admin", (req, res) => {
+        res.redirect("/admin.html");
+    });
 
-<div class="stats">
-🟩 Wind: ${state.wind.length} | 🟦 Eis: ${state.eis.length} | Gesamt: ${state.total}
-</div>
+    app.get("/login", (req, res) => {
+        res.redirect("/login.html");
+    });
 
-<div class="columns">
-    <div class="column wind">
-        <h2>🟩 Wind</h2>
-        ${renderList(state.wind)}
-    </div>
+    app.post("/api/login", (req, res) => {
+        const { token } = req.body;
 
-    <div class="column eis">
-        <h2>🟦 Eis</h2>
-        ${renderList(state.eis)}
-    </div>
-</div>
-</body>
-</html>
-        `);
+        if (token === settings.adminToken) {
+            return res.json({ ok: true });
+        }
+
+        res.json({ ok: false, message: "Falsches Passwort." });
+    });
+
+    app.post("/api/admin/action", (req, res) => {
+        const auth = req.headers["x-admin-token"];
+
+        if (auth !== settings.adminToken) {
+            return res.status(403).json({
+                ok: false,
+                message: "Kein Admin-Zugriff."
+            });
+        }
+
+        const { action, type, user } = req.body;
+
+        let result;
+
+        if (action === "next") result = queue.next(type);
+        if (action === "remove") result = queue.removeName(type, user);
+        if (action === "up") result = queue.moveUp(type, user);
+        if (action === "down") result = queue.moveDown(type, user);
+        if (action === "allow") result = queue.allowAgain(user);
+        if (action === "clear") result = queue.clearAll();
+        if (action === "reorder") result = queue.reorder(type, req.body.order);
+
+        if (!result) {
+            return res.json({ ok: false, message: "Unbekannte Aktion." });
+        }
+
+        res.json(result);
     });
 
     app.listen(3000, () => {
         console.log("🎒 Webseite läuft auf http://localhost:3000");
+        console.log("🔒 Login: http://localhost:3000/login");
+        console.log("👑 Admin: http://localhost:3000/admin");
     });
-}
-
-function renderList(list) {
-    if (!list.length) return `<p class="empty">Leer</p>`;
-
-    return list.map((user, index) => `
-        <div class="ticket">
-            <span>#${index + 1}</span>
-            <strong>${user}</strong>
-        </div>
-    `).join("");
 }
 
 module.exports = {

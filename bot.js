@@ -32,7 +32,8 @@ if (!config.oauthToken.startsWith("oauth:")) {
 
 const settings = {
     entriesOpen: true,
-    publicListVisible: false
+    publicListVisible: false,
+    adminToken: config.adminToken || "admin"
 };
 
 queue.loadData();
