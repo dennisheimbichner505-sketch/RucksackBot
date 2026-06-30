@@ -7,43 +7,56 @@
 </head>
 <body>
     <script>
-    if (!localStorage.getItem("adminToken")) {
-        window.location.href = "/login";
-    }
-</script>
-    <h1>🎒 Rucksack Admin</h1>
+        if (!localStorage.getItem("adminToken")) {
+            window.location.href = "/login";
+        }
+    </script>
 
-    <div id="toast" class="toast"></div>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <h2>🎒 RucksackBot</h2>
 
-    <div class="admin-actions">
-        <button class="danger" onclick="clearAll()">🧹 Alles leeren</button>
-        <a href="/">Zur normalen Ansicht</a>
-    </div>
+            <a href="/">🏠 Home</a>
+            <a href="/admin" class="active">👑 Admin</a>
+            
+        </aside>
 
-    <div class="columns">
-        <div class="column wind">
-            <h2>🟩 Wind</h2>
-            <div id="windAdmin"></div>
-            <button onclick="adminAction('next', 'wind')">▶️ Nächster Wind</button>
-        </div>
+        <main class="main-content">
+            <h1>🎒 Rucksack Admin</h1>
 
-        <div class="column eis">
-            <h2>🟦 Eis</h2>
-            <div id="eisAdmin"></div>
-            <button onclick="adminAction('next', 'eis')">▶️ Nächster Eis</button>
-        </div>
-    </div>
+            <div id="toast" class="toast"></div>
 
-    <div class="columns bottom">
-        <div class="column">
-            <h2>🔓 Entfernte Spieler</h2>
-            <div id="removedList"></div>
-        </div>
+            <div class="admin-actions">
+                <button class="danger" onclick="clearAll()">🧹 Alles leeren</button>
+                <a class="button" href="/">Zur normalen Ansicht</a>
+            </div>
 
-        <div class="column">
-            <h2>📜 Verlauf</h2>
-            <div id="historyList"></div>
-        </div>
+            <div class="columns">
+                <div class="column wind">
+                    <h2>🟩 Wind</h2>
+                    <div id="windAdmin"></div>
+                    <button onclick="adminAction('next', 'wind')">▶️ Nächster Wind</button>
+                </div>
+
+                <div class="column eis">
+                    <h2>🟦 Eis</h2>
+                    <div id="eisAdmin"></div>
+                    <button onclick="adminAction('next', 'eis')">▶️ Nächster Eis</button>
+                </div>
+            </div>
+
+            <div class="columns bottom">
+                <div class="column">
+                    <h2>🔓 Entfernte Spieler</h2>
+                    <div id="removedList"></div>
+                </div>
+
+                <div class="column">
+                    <h2>📜 Verlauf</h2>
+                    <div id="historyList"></div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script src="/js/admin.js"></script>

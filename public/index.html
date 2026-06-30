@@ -2,29 +2,38 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Rucksack</title>
+    <title>RucksackBot</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>🎒 Rucksack 🎒</h1>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <h2>🎒 RucksackBot</h2>
 
-    <div class="status" id="status"></div>
-    <div class="stats" id="stats"></div>
+            <a href="/" class="active">🏠 Home</a>
+            <a href="/admin">👑 Admin</a>
+            
+            
+        </aside>
 
-    <div class="admin-actions">
-    <a href="/admin.html">👑 Admin öffnen</a>
-</div>
+        <main class="main-content">
+            <h1>🎒 Rucksack 🎒</h1>
 
-    <div class="columns">
-        <div class="column wind">
-            <h2>🟩 Wind</h2>
-            <div id="windList"></div>
-        </div>
+            <div class="status" id="status"></div>
+            <div class="stats" id="stats"></div>
 
-        <div class="column eis">
-            <h2>🟦 Eis</h2>
-            <div id="eisList"></div>
-        </div>
+            <div class="columns">
+                <div class="column wind">
+                    <h2>🟩 Wind</h2>
+                    <div id="windList"></div>
+                </div>
+
+                <div class="column eis">
+                    <h2>🟦 Eis</h2>
+                    <div id="eisList"></div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script src="/js/app.js"></script>

@@ -2,18 +2,42 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Rucksack Login</title>
+    <title>RucksackBot - Login</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>🔒 Rucksack Login</h1>
 
-    <div class="login-box">
-        <input id="tokenInput" type="password" placeholder="Admin-Passwort">
-        <button onclick="login()">Einloggen</button>
-        <p id="message"></p>
-    </div>
+<div class="app-layout">
+    <aside class="sidebar">
+        <h2>🎒 RucksackBot</h2>
+        <a href="/">🏠 Home</a>
+        <a href="/admin">👑 Admin</a>
+    </aside>
 
-    <script src="/js/login.js"></script>
+    <main class="main-content">
+        <div class="login-box">
+            <h1>🔐 Login</h1>
+            <p>Bitte gib dein Admin-Passwort ein.</p>
+
+            <form onsubmit="login(); return false;">
+                <div class="password-field">
+                    <input
+                        type="password"
+                        id="tokenInput"
+                        placeholder="Admin Passwort"
+                        autofocus>
+
+                    <span id="eyeButton" onclick="togglePassword()">👁️</span>
+                </div>
+
+                <button type="submit">Anmelden</button>
+            </form>
+
+            <p id="message"></p>
+        </div>
+    </main>
+</div>
+
+<script src="/js/login.js"></script>
 </body>
 </html>

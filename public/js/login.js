@@ -16,6 +16,18 @@ async function login() {
         return;
     }
 
-    localStorage.setItem("adminToken", token);
     window.location.href = "/admin";
+}
+
+function togglePassword() {
+    const input = document.getElementById("tokenInput");
+    const eye = document.getElementById("eyeButton");
+
+    if (input.type === "password") {
+        input.type = "text";
+        eye.innerText = "🙈";
+    } else {
+        input.type = "password";
+        eye.innerText = "👁️";
+    }
 }

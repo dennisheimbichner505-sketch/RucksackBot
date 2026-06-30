@@ -1,9 +1,3 @@
-const adminToken = localStorage.getItem("adminToken");
-
-if (!adminToken) {
-    window.location.href = "/login";
-}
-
 async function loadAdmin() {
     const response = await fetch("/api/state");
     const data = await response.json();
@@ -119,7 +113,7 @@ async function adminAction(action, type = null, user = null, order = null, showM
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "x-admin-token": adminToken
+         
         },
         body: JSON.stringify({ action, type, user, order })
     });

@@ -1,10 +1,59 @@
 const express = require("express");
+const session = require("express-session");
+const path = require("path");
 
 function startWebsite(queue, settings) {
     const app = express();
 
     app.use(express.json());
-    app.use(express.static("public"));
+
+    app.use(session({
+        secret: settings.adminToken || "rucksackbot-secret",
+        resave: false,
+        saveUninitialized: false
+    }));
+
+    function requireAdmin(req, res, next) {
+        if (req.session && req.session.isAdmin) return next();
+        res.redirect("/login");
+    }
+
+    app.get("/admin", requireAdmin, (req, res) => {
+        res.sendFile(path.join(__dirname, "public", "admin.html"));
+    });
+
+    app.get("/admin.html", requireAdmin, (req, res) => {
+        res.sendFile(path.join(__dirname, "public", "admin.html"));
+    });
+
+    app.get("/login", (req, res) => {
+        res.sendFile(path.join(__dirname, "public", "login.html"));
+    });
+
+    app.post("/api/login", (req, res) => {
+        const { token } = req.body;
+
+        if (token === settings.adminToken) {
+            req.session.isAdmin = true;
+            return res.json({ ok: true });
+        }
+
+        res.json({ ok: false, message: "Falsches Passwort." });
+    });
+
+    app.post("/api/logout", (req, res) => {
+        req.session.destroy(() => {
+            res.json({ ok: true });
+        });
+    });
+
+    app.get("/overlay", (req, res) => {
+        res.redirect("/overlay.html");
+    });
+
+    app.get("/dashboard", (req, res) => {
+        res.redirect("/dashboard.html");
+    });
 
     app.get("/api/state", (req, res) => {
         const state = queue.getState();
@@ -20,37 +69,7 @@ function startWebsite(queue, settings) {
         });
     });
 
-    app.get("/admin", (req, res) => {
-        res.redirect("/admin.html");
-    });
-
-    app.get("/login", (req, res) => {
-        res.redirect("/login.html");
-    });
-    app.get("/overlay", (req, res) => {
-    res.redirect("/overlay.html");
-    });
-
-    app.post("/api/login", (req, res) => {
-        const { token } = req.body;
-
-        if (token === settings.adminToken) {
-            return res.json({ ok: true });
-        }
-
-        res.json({ ok: false, message: "Falsches Passwort." });
-    });
-
-    app.post("/api/admin/action", (req, res) => {
-        const auth = req.headers["x-admin-token"];
-
-        if (auth !== settings.adminToken) {
-            return res.status(403).json({
-                ok: false,
-                message: "Kein Admin-Zugriff."
-            });
-        }
-
+    app.post("/api/admin/action", requireAdmin, (req, res) => {
         const { action, type, user } = req.body;
 
         let result;
@@ -70,10 +89,13 @@ function startWebsite(queue, settings) {
         res.json(result);
     });
 
+    app.use(express.static("public"));
+
     app.listen(3000, () => {
         console.log("🎒 Webseite läuft auf http://localhost:3000");
         console.log("🔒 Login: http://localhost:3000/login");
         console.log("👑 Admin: http://localhost:3000/admin");
+        console.log("📺 Overlay: http://localhost:3000/overlay");
     });
 }
 
