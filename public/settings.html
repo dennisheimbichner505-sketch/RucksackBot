@@ -9,7 +9,6 @@
 <div class="app-layout">
     <aside class="sidebar">
         <h2>🎒 RucksackBot</h2>
-        <a href="/">🏠 Home</a>
         <a href="/admin">👑 Admin</a>
         <a href="/settings" class="active">⚙️ Einstellungen</a>
     </aside>
@@ -19,47 +18,53 @@
 
         <div id="toast" class="toast"></div>
 
-        <div class="settings-grid">
-            <div class="settings-card">
-                <h2>🤖 Twitch</h2>
-
-                <label>Twitch Name</label>
-                <input id="twitchName" type="text" placeholder="Dein Twitch Name">
-
-                <label>OAuth Token</label>
-                <input id="oauthToken" type="password" placeholder="oauth:...">
+        <div class="settings-layout">
+            <div class="settings-tabs">
+                <button class="settings-tab active" onclick="showSettingsTab('twitch')">🤖 Twitch</button>
+                <button class="settings-tab" onclick="showSettingsTab('security')">🔒 Sicherheit</button>
+                <button class="settings-tab" onclick="showSettingsTab('website')">🌐 Webseite</button>
             </div>
 
-            <div class="settings-card">
-                <h2>🔒 Sicherheit</h2>
+            <div class="settings-panel">
+                <section id="tab-twitch" class="settings-section active">
+                    <h2>🤖 Twitch</h2>
 
-                <label>Admin Passwort</label>
-                <input id="adminToken" type="password" placeholder="Admin Passwort">
+                    <label>Twitch Name</label>
+                    <input id="twitchName" type="text" placeholder="Dein Twitch Name">
 
-                <p class="settings-note">
-                    Dieses Passwort nutzt du für den Admin-Login.
-                </p>
-            </div>
+                    <label>OAuth Token</label>
+                    <input id="oauthToken" type="password" placeholder="oauth:...">
 
-            <div class="settings-card">
-                <h2>🌐 Webseite</h2>
+                    <p class="settings-note">
+                        Twitch Name und OAuth Token brauchen nach dem Speichern einen Bot-Neustart.
+                    </p>
+                </section>
 
-                <label>Port</label>
-                <input id="port" type="number" placeholder="3000">
+                <section id="tab-security" class="settings-section">
+                    <h2>🔒 Sicherheit</h2>
 
-                <p class="settings-note">
-                    Standard ist 3000.
-                </p>
-            </div>
+                    <label>Admin Passwort</label>
+                    <input id="adminToken" type="password" placeholder="Admin Passwort">
 
-            <div class="settings-card">
-                <h2>💾 Speichern</h2>
+                    <p class="settings-note">
+                        Dieses Passwort nutzt du für den Admin-Login.
+                    </p>
+                </section>
 
-                <p class="settings-note">
-                    Twitch Name, OAuth Token und Port brauchen nach dem Speichern einen Bot-Neustart.
-                </p>
+                <section id="tab-website" class="settings-section">
+                    <h2>🌐 Webseite</h2>
 
-                <button onclick="saveSettings()">💾 Einstellungen speichern</button>
+                    <label>Port</label>
+                    <input id="port" type="number" placeholder="3000">
+
+                    <p class="settings-note">
+                        Standard ist 3000. Eine Änderung braucht einen Bot-Neustart.
+                    </p>
+                </section>
+
+                <div class="settings-save">
+                    <button onclick="saveSettings()">💾 Einstellungen speichern</button>
+                </div>
             </div>
         </div>
     </main>

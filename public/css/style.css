@@ -472,4 +472,155 @@ button:hover,
     margin: 0 auto;
     padding: 36px;
 }
+/* ==========================
+   Settings Messages Polish
+========================== */
+
+.settings-card textarea {
+    width: 100%;
+    min-height: 92px;
+    resize: vertical;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    padding: 14px;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    background: #242437;
+    color: white;
+    font-size: 16px;
+    line-height: 1.5;
+    outline: none;
+}
+
+.settings-card textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 15px rgba(145,70,255,.45);
+}
+
+.settings-card label {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.settings-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-card h2 {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 12px;
+}
+.settings-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.settings-tabs {
+    background: var(--panel);
+    border-radius: 22px;
+    padding: 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    height: fit-content;
+}
+
+.settings-tab {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 17px;
+    background: transparent;
+}
+
+.settings-tab:hover,
+.settings-tab.active {
+    background: linear-gradient(135deg, var(--purple), #5f27cd);
+}
+
+.settings-panel {
+    background: var(--panel);
+    border-radius: 22px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+}
+
+.settings-section {
+    display: none;
+}
+
+.settings-section.active {
+    display: block;
+}
+
+.settings-section h2 {
+    margin-top: 0;
+    font-size: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 14px;
+}
+
+.settings-section label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.settings-section input,
+.settings-section textarea {
+    width: 100%;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    background: #242437;
+    color: white;
+    font-size: 17px;
+    outline: none;
+}
+
+.settings-section input {
+    height: 52px;
+    padding: 0 15px;
+}
+
+.settings-section textarea {
+    min-height: 96px;
+    resize: vertical;
+    padding: 14px;
+    line-height: 1.5;
+}
+
+.settings-section input:focus,
+.settings-section textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 15px rgba(145,70,255,.45);
+}
+
+.settings-save {
+    margin-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 22px;
+}
+
+.settings-save button {
+    width: 100%;
+    font-size: 18px;
+}
+
+.settings-note {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+    .settings-layout {
+        grid-template-columns: 1fr;
+    }
+}
 }

@@ -8,6 +8,19 @@ async function loadSettings() {
     document.getElementById("port").value = data.port;
 }
 
+function showSettingsTab(tabName) {
+    document.querySelectorAll(".settings-section").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    document.querySelectorAll(".settings-tab").forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    document.getElementById(`tab-${tabName}`).classList.add("active");
+    event.currentTarget.classList.add("active");
+}
+
 async function saveSettings() {
     const payload = {
         twitchName: document.getElementById("twitchName").value,

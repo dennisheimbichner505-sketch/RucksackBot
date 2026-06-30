@@ -60,7 +60,10 @@ function join(username, typeName) {
     if (!type) return { ok: false, message: "Unbekannter Typ." };
 
     if (used.has(username)) {
-        return { ok: false, message: `@${username}, du bist bereits im Rucksack.` };
+        return {
+            ok: false,
+            message: `@${username}, du bist bereits im Rucksack.`
+        };
     }
 
     type.list.push(username);
@@ -72,7 +75,10 @@ function join(username, typeName) {
     addHistory(`${username} → ${type.name}`);
     saveData();
 
-    return { ok: true, message: `${type.icon} @${username} ist bei ${type.name} angemeldet! Platz #${type.list.length}` };
+    return {
+        ok: true,
+        message: `${type.icon} @${username}, du bist jetzt in der ${type.name}-Liste! Dein Platz: #${type.list.length}`
+    };
 }
 
 function getPlace(username) {
@@ -184,15 +190,15 @@ function reorder(typeName, newOrder) {
 
     const cleanOrder = newOrder.map(u => u.toLowerCase());
 
-if (JSON.stringify(type.list) === JSON.stringify(cleanOrder)) {
-    return { ok: true, message: "Reihenfolge unverändert." };
-}
+    if (JSON.stringify(type.list) === JSON.stringify(cleanOrder)) {
+        return { ok: true, message: "Reihenfolge unverändert." };
+    }
 
-type.list.length = 0;
-type.list.push(...cleanOrder);
+    type.list.length = 0;
+    type.list.push(...cleanOrder);
 
-addHistory(`${type.name} per Drag & Drop sortiert`);
-saveData();
+    addHistory(`${type.name} per Drag & Drop sortiert`);
+    saveData();
 
     return { ok: true, message: `${type.name} wurde neu sortiert.` };
 }
