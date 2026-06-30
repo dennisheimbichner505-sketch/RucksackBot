@@ -2,7 +2,7 @@
 cd /d "%~dp0"
 
 echo ====================================
-echo      RucksackBot startet...
+echo      🎒 RucksackBot startet...
 echo ====================================
 echo.
 
@@ -17,8 +17,6 @@ echo.
 echo [3/4] Starte Bot...
 start "RucksackBot" cmd /k "cd /d %~dp0 && node bot.js"
 
-echo.
-echo Warte 3 Sekunden...
 timeout /t 3 >nul
 
 echo.
@@ -27,4 +25,5 @@ start "ngrok" cmd /k "cd /d %~dp0 && ngrok http 3000"
 
 echo.
 echo Fertig!
+echo Dieses Fenster kann geschlossen werden.
 pause
