@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>RucksackBot Einstellungen</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar">
+        <h2>🎒 RucksackBot</h2>
+        <a href="/">🏠 Home</a>
+        <a href="/admin">👑 Admin</a>
+        <a href="/settings" class="active">⚙️ Einstellungen</a>
+    </aside>
+
+    <main class="main-content">
+        <h1>⚙️ Einstellungen</h1>
+
+        <div id="toast" class="toast"></div>
+
+        <div class="settings-grid">
+            <div class="settings-card">
+                <h2>🤖 Twitch</h2>
+
+                <label>Twitch Name</label>
+                <input id="twitchName" type="text" placeholder="Dein Twitch Name">
+
+                <label>OAuth Token</label>
+                <input id="oauthToken" type="password" placeholder="oauth:...">
+            </div>
+
+            <div class="settings-card">
+                <h2>🔒 Sicherheit</h2>
+
+                <label>Admin Passwort</label>
+                <input id="adminToken" type="password" placeholder="Admin Passwort">
+
+                <p class="settings-note">
+                    Dieses Passwort nutzt du für den Admin-Login.
+                </p>
+            </div>
+
+            <div class="settings-card">
+                <h2>🌐 Webseite</h2>
+
+                <label>Port</label>
+                <input id="port" type="number" placeholder="3000">
+
+                <p class="settings-note">
+                    Standard ist 3000.
+                </p>
+            </div>
+
+            <div class="settings-card">
+                <h2>💾 Speichern</h2>
+
+                <p class="settings-note">
+                    Twitch Name, OAuth Token und Port brauchen nach dem Speichern einen Bot-Neustart.
+                </p>
+
+                <button onclick="saveSettings()">💾 Einstellungen speichern</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="/js/settings.js"></script>
+</body>
+</html>

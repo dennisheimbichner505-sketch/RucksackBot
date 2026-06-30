@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
+const { loadConfig, saveConfig } = require("./configManager");
 
 function startWebsite(queue, settings) {
     const app = express();
@@ -15,19 +16,23 @@ function startWebsite(queue, settings) {
 
     function requireAdmin(req, res, next) {
         if (req.session && req.session.isAdmin) return next();
-        res.redirect("/login");
+        return res.redirect("/login");
     }
 
     app.get("/admin", requireAdmin, (req, res) => {
         res.sendFile(path.join(__dirname, "public", "admin.html"));
     });
 
-    app.get("/admin.html", requireAdmin, (req, res) => {
-        res.sendFile(path.join(__dirname, "public", "admin.html"));
+    app.get("/settings", requireAdmin, (req, res) => {
+        res.sendFile(path.join(__dirname, "public", "settings.html"));
     });
 
     app.get("/login", (req, res) => {
         res.sendFile(path.join(__dirname, "public", "login.html"));
+    });
+
+    app.get("/overlay", (req, res) => {
+        res.sendFile(path.join(__dirname, "public", "overlay.html"));
     });
 
     app.post("/api/login", (req, res) => {
@@ -47,12 +52,33 @@ function startWebsite(queue, settings) {
         });
     });
 
-    app.get("/overlay", (req, res) => {
-        res.redirect("/overlay.html");
+    app.get("/api/settings", requireAdmin, (req, res) => {
+        const config = loadConfig();
+
+        res.json({
+            twitchName: config.twitchName || "",
+            oauthToken: config.oauthToken || "",
+            adminToken: config.adminToken || "admin",
+            port: config.port || 3000
+        });
     });
 
-    app.get("/dashboard", (req, res) => {
-        res.redirect("/dashboard.html");
+    app.post("/api/settings", requireAdmin, (req, res) => {
+        const { twitchName, oauthToken, adminToken, port } = req.body;
+
+        const updated = saveConfig({
+            twitchName,
+            oauthToken,
+            adminToken,
+            port: Number(port) || 3000
+        });
+
+        settings.adminToken = updated.adminToken || "admin";
+
+        res.json({
+            ok: true,
+            message: "Einstellungen gespeichert. Bot bitte neu starten."
+        });
     });
 
     app.get("/api/state", (req, res) => {
@@ -70,7 +96,7 @@ function startWebsite(queue, settings) {
     });
 
     app.post("/api/admin/action", requireAdmin, (req, res) => {
-        const { action, type, user } = req.body;
+        const { action, type, user, order } = req.body;
 
         let result;
 
@@ -80,7 +106,7 @@ function startWebsite(queue, settings) {
         if (action === "down") result = queue.moveDown(type, user);
         if (action === "allow") result = queue.allowAgain(user);
         if (action === "clear") result = queue.clearAll();
-        if (action === "reorder") result = queue.reorder(type, req.body.order);
+        if (action === "reorder") result = queue.reorder(type, order);
 
         if (!result) {
             return res.json({ ok: false, message: "Unbekannte Aktion." });
@@ -91,11 +117,14 @@ function startWebsite(queue, settings) {
 
     app.use(express.static("public"));
 
-    app.listen(3000, () => {
-        console.log("🎒 Webseite läuft auf http://localhost:3000");
-        console.log("🔒 Login: http://localhost:3000/login");
-        console.log("👑 Admin: http://localhost:3000/admin");
-        console.log("📺 Overlay: http://localhost:3000/overlay");
+    const port = settings.port || 3000;
+
+    app.listen(port, () => {
+        console.log(`🎒 Webseite läuft auf http://localhost:${port}`);
+        console.log(`🔒 Login: http://localhost:${port}/login`);
+        console.log(`👑 Admin: http://localhost:${port}/admin`);
+        console.log(`⚙️ Einstellungen: http://localhost:${port}/settings`);
+        console.log(`📺 Overlay: http://localhost:${port}/overlay`);
     });
 }
 

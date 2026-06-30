@@ -143,6 +143,15 @@ function showToast(message) {
         toast.classList.remove("show");
     }, 2500);
 }
+async function logout() {
+
+    await fetch("/api/logout", {
+        method: "POST"
+    });
+
+    window.location.href = "/login";
+
+}
 
 loadAdmin();
 setInterval(loadAdmin, 2000);

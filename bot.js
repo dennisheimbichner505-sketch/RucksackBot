@@ -1,27 +1,16 @@
 const tmi = require("tmi.js");
-const fs = require("fs");
+const { loadConfig } = require("./configManager");
 
 const queue = require("./queue");
 const { setupCommands } = require("./commands");
 const { startWebsite } = require("./website");
 
-if (!fs.existsSync("config.json")) {
-    fs.writeFileSync("config.json", JSON.stringify({
-        twitchName: "",
-        oauthToken: ""
-    }, null, 2));
-
-    console.log("❌ config.json wurde erstellt.");
-    console.log("Bitte twitchName und oauthToken eintragen.");
-    process.exit();
-}
-
-const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
+const config = loadConfig();
 
 if (!config.twitchName || !config.oauthToken) {
     console.log("❌ Bitte config.json ausfüllen.");
     console.log("Beispiel:");
-    console.log('{ "twitchName": "deinname", "oauthToken": "oauth:deintoken" }');
+    console.log('{ "twitchName": "deinname", "oauthToken": "oauth:deintoken", "adminToken": "admin" }');
     process.exit();
 }
 
