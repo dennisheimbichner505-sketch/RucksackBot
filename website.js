@@ -27,6 +27,9 @@ function startWebsite(queue, settings) {
     app.get("/login", (req, res) => {
         res.redirect("/login.html");
     });
+    app.get("/overlay", (req, res) => {
+    res.redirect("/overlay.html");
+    });
 
     app.post("/api/login", (req, res) => {
         const { token } = req.body;
